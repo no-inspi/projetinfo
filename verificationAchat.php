@@ -1,4 +1,5 @@
 <?php 
+            session_start();
 	 		$servname = 'localhost';
             $dbname = 'projetinfo1';
             $user = 'root';
