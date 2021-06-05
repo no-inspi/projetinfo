@@ -18,6 +18,10 @@ body {
     margin-left: 200px;
 }
 
+.form-input {
+    width: 350px;
+}
+
 .title-top {
     margin-top: 50px;
     margin-bottom: 50px;
