@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 05 juin 2021 à 17:58
+-- Généré le : Dim 06 juin 2021 à 14:18
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -32,8 +32,14 @@ CREATE TABLE IF NOT EXISTS `evenements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) NOT NULL,
   `prix` varchar(10) NOT NULL,
-  `date` date DEFAULT NULL,
+  `dateDebut` date DEFAULT NULL,
   `lien_image` varchar(100) DEFAULT NULL,
+  `description` text NOT NULL,
+  `lieu` text NOT NULL,
+  `dateFin` date DEFAULT NULL,
+  `nombreParticipants` int(10) NOT NULL,
+  `dateLimiteInscription` date DEFAULT NULL,
+  `placesRestantes` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
@@ -41,10 +47,10 @@ CREATE TABLE IF NOT EXISTS `evenements` (
 -- Déchargement des données de la table `evenements`
 --
 
-INSERT INTO `evenements` (`id`, `nom`, `prix`, `date`, `lien_image`) VALUES
-(1, 'Uno nouvelle génération', '10', '2021-06-10', 'images/background_accueil.png'),
-(2, 'Jeu de rôle', '5', '2021-06-08', 'images/background_accueil.png'),
-(3, 'Jeu de rôle ', '8', '2021-06-24', 'images/background_accueil.png');
+INSERT INTO `evenements` (`id`, `nom`, `prix`, `dateDebut`, `lien_image`, `description`, `lieu`, `dateFin`, `nombreParticipants`, `dateLimiteInscription`, `placesRestantes`) VALUES
+(1, 'Uno nouvelle generation', '2', '2021-06-10', 'images/uno.jpeg', '', 'CY 201', '2021-06-10', 20, '2021-06-09', 20),
+(2, 'Jeu de role', '5', '2021-06-08', 'images/loupGarou.jpeg', '', 'TG 201', '2021-06-08', 30, '2021-06-07', 29),
+(3, 'Jeu de role ', '20', '2021-06-24', 'images/donjonDragon.jpg', '', 'CT 201', '2021-06-24', 10, '2021-06-23', 10);
 
 -- --------------------------------------------------------
 
@@ -67,9 +73,9 @@ CREATE TABLE IF NOT EXISTS `produit` (
 --
 
 INSERT INTO `produit` (`id`, `nom`, `prix`, `stock`, `lien_image`) VALUES
-(1, 'Mug La Guilde', 10, 150, 'images/background_accueil.png'),
-(2, 'Tshirt La Guilde', 25, 68, 'images/background_accueil.png'),
-(3, 'Pull La Guilde', 45, 85, 'images/background_accueil.png');
+(1, 'Mug La Guilde', 10, 147, 'images/mugGuilde.jpg'),
+(2, 'Tshirt La Guilde', 25, 67, 'images/tshirtGuilde.jpg'),
+(3, 'Pull La Guilde', 45, 85, 'images/pullGuilde.jpg');
 
 -- --------------------------------------------------------
 
@@ -87,20 +93,41 @@ CREATE TABLE IF NOT EXISTS `produitvendu` (
   PRIMARY KEY (`id`),
   KEY `idUtilisateurs` (`idUtilisateur`),
   KEY `idProduit` (`idProduit`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `produitvendu`
 --
 
 INSERT INTO `produitvendu` (`id`, `idProduit`, `idUtilisateur`, `date_ajout`, `montant`) VALUES
-(1, 1, 5, '2021-06-05', 10),
-(2, 3, 5, '2021-06-05', 45),
-(3, 2, 5, '2021-06-05', 25),
-(4, 2, 5, '2021-06-05', 25),
-(5, 3, 5, '2021-06-05', 45),
-(6, 3, 5, '2021-06-05', 45),
-(7, 3, 5, '2021-06-05', 45);
+(8, 1, 6, '2021-06-06', 10),
+(9, 1, 6, '2021-06-06', 10),
+(10, 1, 6, '2021-06-06', 10),
+(11, 2, 6, '2021-06-06', 25);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reservation`
+--
+
+DROP TABLE IF EXISTS `reservation`;
+CREATE TABLE IF NOT EXISTS `reservation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idEvenements` int(10) NOT NULL,
+  `idUtilisateur` int(11) NOT NULL,
+  `date_ajout` date NOT NULL,
+  `montant` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `reservation`
+--
+
+INSERT INTO `reservation` (`id`, `idEvenements`, `idUtilisateur`, `date_ajout`, `montant`) VALUES
+(1, 2, 6, '2021-06-06', 5),
+(2, 2, 6, '2021-06-06', 5);
 
 -- --------------------------------------------------------
 
@@ -146,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`),
   KEY `idtypeutilisateurs` (`idtypeUtilisateurs`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `utilisateurs`
@@ -154,10 +181,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 
 INSERT INTO `utilisateurs` (`id`, `nom`, `prenom`, `age`, `mail`, `mdp`, `pseudo`, `idtypeUtilisateurs`, `adresse`, `ville`, `codePostale`, `telephone`) VALUES
 (1, 'ap', 'mathéo', 20, 'test@gmail.com', 'test', 'test', 1, '16 RUE DE LA FORGE', 'ST LEU LA FORET', 95320, '0672291212'),
-(2, 'ap', 'charlie', 21, 'charlie.apcher@orange.fr', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'spartiaxy', 1, '16 RUE DE LA FORGE', 'ST LEU LA FORET', 95320, '0672291212'),
-(3, 'ap', 'charlie', 21, 'charlie.apcher@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'spartiaxy', 1, '16 RUE DE LA FORGE', 'ST LEU LA FORET', 95320, '0672291212'),
-(4, 'ap', 'charlie', 21, 'charlie.apcherorange@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'spartiaxy', 1, '16 RUE DE LA FORGE', 'ST LEU LA FORET', 95320, '0672291212'),
-(5, 'apcher', 'charlie', 21, 'Spartiaxy@orange.fr', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'spartiaxy', 1, '16 RUE DE LA FORGE', 'ST LEU LA FORET', 95320, '+33 6 72 28 94 13');
+(6, 'apcher', 'matheo', 21, 'mat.apcher@gmail.com', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Aki', 1, '00400', 'St Leu La ForÃªt', 95320, '07 82 16 71 47');
 
 --
 -- Contraintes pour les tables déchargées
