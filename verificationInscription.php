@@ -30,7 +30,7 @@
                 $query->closeCursor();
 
 
-                $sql = 'SELECT * FROM produit WHERE id='.$_POST['id'].'';
+                $sql = 'SELECT * FROM evenements WHERE id='.$_POST['id'].'';
                 $query = $dbco->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
@@ -42,22 +42,22 @@
                 $Reponse1 = $query1->fetchAll();
                 $query1->closeCursor();
 
-                if($Reponse[0]['stock']>=1) {
-                    $sql = 'INSERT INTO produitvendu(idProduit,idUtilisateur,date_ajout,montant) VALUES ('.$_POST['id'].','.$Reponse1[0]['id'].',"'.$date.'",'.$Reponse[0]['prix'].') ';
+                if($Reponse[0]['placesRestantes']>=1) {
+                    $sql = 'INSERT INTO reservation(idEvenements,idUtilisateur,date_ajout,montant) VALUES ('.$_POST['id'].','.$Reponse1[0]['id'].',"'.$date.'",'.$Reponse[0]['prix'].') ';
                     $query = $dbco->prepare($sql);
                     $query->execute();
                     $query->closeCursor();
 
-                    $stock_final = $Reponse[0]["stock"]-1;
+                    $placesRestantes_finales = $Reponse[0]["placesRestantes"]-1;
 
-                    $sql2 = 'UPDATE produit SET stock='.$stock_final.' WHERE id='.$_POST['id'].'';
+                    $sql2 = 'UPDATE evenements SET placesRestantes='.$placesRestantes_finales.' WHERE id='.$_POST['id'].'';
                     $query2 = $dbco->prepare($sql2);
                     $query2->execute();
                     $query2->closeCursor();
-                    $message = "Votre achat a bien été effectué";
+                    $message = "Votre inscription a bien été effectuée";
                 }
                 else {
-                    $message = "Nous n'avons plus le produit";
+                    $message = "Nous n'avons plus de place";
                 }
             }
             else {
@@ -75,7 +75,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Boutique</title>
+    <title>Evénements</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/accueil.css">
     <link rel="stylesheet" type="text/css" href="css/footer.css">

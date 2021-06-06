@@ -24,7 +24,7 @@
                 $sql =  'select * from produit';
                 foreach  ($dbco->query($sql) as $row) {
                     if(isset($_POST[$row['id']])) {
-                        $query = $dbco->prepare('SELECT * FROM produit WHERE id='.$row['id']);
+                        $query = $dbco->prepare('SELECT * FROM evenements WHERE id='.$row['id']);
                         $query->execute();
                         $Reponse = $query->fetchAll();
                         $query->closeCursor();
@@ -46,7 +46,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Boutique</title>
+    <title>Evénements</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/accueil.css">
     <link rel="stylesheet" type="text/css" href="css/footer.css">
@@ -59,9 +59,9 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="verificationAchat.php" method="POST">
+<form action="verificationInscription.php" method="POST">
     <div class="row justify-content-center">
-    <h1 class="text-center title-top"> Votre produit </h1>
+    <h1 class="text-center title-top"> L'événement </h1>
         <div class="col text-center">
             
             <img src="<?php echo($Reponse[0]['lien_image']) ?>" height="400" style="width: 450px">
@@ -74,7 +74,7 @@ include 'menu.php';
         <div class="col text-left">
                     <div class="form-floating mb-3">
                         <input placeholder="Adresse" type="text" class="form-control form-input" id="adresse" name="adresse" required>
-                        <label for="nom" class="form-label">Adresse complète</label>
+                        <label for="nom" class="form-label">Adresse de facturation</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input placeholder="Votre ville" type="text" class="form-control form-input" id="ville" name="ville" required>
@@ -96,7 +96,7 @@ include 'menu.php';
         </div>
         </div>
     <div class="text-center">
-    <button type="submit" class="btn btn-success bg-success" style="width: 150px; margin-top:2%;" name="<?php echo($Reponse[0]['id']) ?>"> Acheter </button>
+    <button type="submit" class="btn btn-success bg-success" style="width: 150px; margin-top:2%;" name="<?php echo($Reponse[0]['id']) ?>"> S'inscrire </button>
     </div>
     </form>
 </div>

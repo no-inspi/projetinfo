@@ -99,7 +99,7 @@ include 'menu.php';
 
 <div class="col-6" >
 	<div style="width: 80%" >
-	<h1 class="text-center">Nos évenements à venir</h1><br>
+	<h1 class="text-center">Nos événements à venir</h1><br>
 	<div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel">
 		  <div class="carousel-indicators">
 		    <button type="button" data-bs-target="#carouselExampleIndicators1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -117,7 +117,7 @@ include 'menu.php';
 					}
 				 ?>
 					
-		      <a href="index.php"><img src="<?php echo $row['lien_image'];?>" class="d-block w-100" alt=""></a>
+		      <a href="evenements.php"><img src="<?php echo $row['lien_image'];?>" class="d-block w-100" alt=""></a>
 		    </div>
 		    <?php
 		    	$tamp=$tamp+1;
@@ -135,7 +135,7 @@ include 'menu.php';
 	</div>
 	<br>
 	<div class="text-center">
-		<a href="#ancreboutique"><button class="btn btn-success bg-dark"> Inscrivez-vous</button></a>
+		<a href="evenements.php"><button class="btn btn-success bg-dark"> Inscrivez-vous</button></a>
 	</div>
 </div>
 </div>

@@ -12,6 +12,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="boutique.php">Boutique</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="evenements.php">Evénements</a>
+        </li>
         <?php if(isset($_SESSION['login'])) { ?>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
