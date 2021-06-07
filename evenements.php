@@ -48,7 +48,13 @@ include 'menu.php';
                     <img src="<?php echo($row['lien_image']) ?>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo($row['nom']) ?></h5>
-                        <p class="card-text"><?php echo($row['prix']) ?>€</p>
+                        <p class="card-text">Description : <?php echo($row['description']) ?></p>
+                        <p class="card-text">Lieu : <?php echo($row['lieu']) ?></p>
+                        <p class="card-text">Nombre de participants : <?php echo($row['nombreParticipants']) ?></p>
+                        <p class="card-text">Début de l'événement : <?php echo($row['dateDebut']) ?></p>
+                        <p class="card-text">Fin de l'événement : <?php echo($row['dateFin']) ?></p>
+                        <p class="card-text"><?php echo($row['prix']) ?>€ la place</p>
+                        <p class="card-text">Vous pouvez vous inscrire jusqu'au : <?php echo($row['dateLimiteInscription']) ?></p>
                         <p class="card-text">Places restantes : <?php echo($row['placesRestantes']) ?></p>
                         <button type="submit" class="btn btn-primary" name="<?php echo($row['id']) ?>" id="<?php echo($row['id']) ?>">S'inscrire</button>
                     </div>

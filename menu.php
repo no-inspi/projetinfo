@@ -22,7 +22,8 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="informations.php">Mes informations</a></li>
-            <li><a class="dropdown-item" href="#">Mes commandes</a></li>
+            <li><a class="dropdown-item" href="commandes.php">Mes commandes</a></li>
+            <li><a class="dropdown-item" href="reservations.php">Mes inscriptions</a></li>
           </ul>
         </li>
         <?php } ?>

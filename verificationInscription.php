@@ -21,7 +21,7 @@
               echo "Erreur : " . $e->getMessage();
             }
 
-            $date = date("Y-m-d");
+            $date = date("Y-m-d H:i:s");
             if(!empty($_POST)) {
 
                 $sql = 'UPDATE utilisateurs SET adresse="'.$_POST['adresse'].'", ville="'.$_POST['ville'].'",codePostale='.$_POST['codepostal'].',telephone="'.$_POST['phone'].'" WHERE mail="'.$_SESSION['login'].'"';

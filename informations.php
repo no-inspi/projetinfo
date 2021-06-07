@@ -15,7 +15,7 @@
                     $query = $bdd->prepare($sql);
                     $query->execute();
                     $query->closeCursor();
-                    $message = 'Vos données ont bien été modifier';
+                    $message = 'Vos données ont bien été modifiées';
                 }
 
 
@@ -95,7 +95,7 @@ include 'menu.php';
                     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Votre Email" name="mail" value="<?php echo($Reponse[0]['mail']) ?>" required>
                     <div id="emailHelp" class="form-text">Nous ne partagerons jamais votre email</div>
                 </div>
-                <a type="button" class="btn btn-primary" href="#">Modifier mon mot de passe</a>
+                <a type="button" class="btn btn-primary" href="modifMdp.php">Modifier mon mot de passe</a>
                 <button type="submit" class="btn btn-primary">Modifier mes informations</button>
 
         </div>
