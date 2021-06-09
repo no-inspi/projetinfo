@@ -28,7 +28,7 @@
         </li>
         <?php } ?>
         <?php if(isset($_SESSION['login'])) { //on ne le voit pas si on n'est pas connecté
-                if($_SESSION['typeUtilisateurs'] = 1) { ?>
+                if($_SESSION['typeUtilisateurs'] == 1) { ?>
         <li class="nav-item dropdown"> 
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Espace Administrateur

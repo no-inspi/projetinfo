@@ -93,7 +93,7 @@ include 'menu.php';
                 </div>
                 <div class="mb-3">
                     <label for="idtypeUtilisateurs" class="form-label">Id Type d'utilisateurs (1=admin 2=membre) </label>
-                    <input placeholder="idtypeUtilisateurs" type="number" class="form-control" id="idtypeUtilisateurs" name="idtypeUtilisateurs" value="<?php echo($Reponse1[0]['idtypeUtilisateurs']) ?>" required>
+                    <input placeholder="idtypeUtilisateurs" type="text" class="form-control" id="idtypeUtilisateurs" name="idtypeUtilisateurs" value="<?php echo($Reponse1[0]['idtypeUtilisateurs']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="mail" class="form-label">Email</label>

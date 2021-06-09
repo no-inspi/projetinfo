@@ -17,6 +17,24 @@
               echo "Erreur : " . $e->getMessage();
             }
 
+            if(!empty($_POST)) {
+              if($_POST['select_input']=='desc') {
+                $sql =  'select * from produit order by prix desc';
+              }
+              else {
+                if($_POST['select_input']=='croi') {
+                  $sql =  'select * from produit order by prix asc';
+                }
+                else {
+                  $sql =  'select * from produit';
+                }
+              }
+            }
+            else {
+              $sql =  'select * from produit';
+            }
+
+            
 
 
 
@@ -37,9 +55,23 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 150px;">
+<form action="boutique.php" method="post">
+<div class="row justify-content-center">
+<h1 class="text-center title-top"> La boutique </h1>
+
+  <select class="form-select" aria-label="Default select example" name="select_input" style="width: 300px">
+          <option selected>Prix</option>
+          <option value="desc">Décroissant</option>
+          <option value="croi">Croissant</option>
+      </select>
+    <button type="submit" class="btn btn-success bg-success" style="margin-left:20px; width: 150px">Trier</button>
+    
+  </div>
+  </form>
+  <br>
     <div class="row justify-content-center">
-        <h1 class="text-center title-top"> La boutique </h1>
-        <?php $sql =  'select * from produit'; 
+        
+        <?php  
 				foreach  ($dbco->query($sql) as $row) { //boucle pour afficher exactement le nombre de produit présents dans la bdd?>
         
         <div class="col" style="margin-left: 60px" id="<?php echo($row['nom']) ?>">

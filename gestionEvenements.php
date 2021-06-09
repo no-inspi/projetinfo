@@ -17,6 +17,11 @@
               echo "Erreur : " . $e->getMessage();
             }
 
+            if(!isset($_SESSION['login']) || $_SESSION['typeUtilisateurs']!=1) {
+                header("Location: index.php");
+                die();
+            }
+
             $sql = 'SELECT * FROM evenements';
             $query = $dbco->prepare($sql);
             $query->execute();

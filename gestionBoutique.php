@@ -6,7 +6,10 @@
             $user = 'root';
             $pass = '';
             $tamp = 0;
-
+            if(!isset($_SESSION['login']) || $_SESSION['typeUtilisateurs']!=1) {
+                header("Location: index.php");
+                die();
+            }
             try{
                 $dbco = new PDO("mysql:host=$servname;dbname=$dbname", $user, $pass);
                 $dbco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

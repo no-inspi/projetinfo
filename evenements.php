@@ -1,5 +1,6 @@
 <?php 
             session_start();
+            require("function.php");
 	 		$servname = 'localhost';
             $dbname = 'projetinfo1';
             $user = 'root';
@@ -16,9 +17,163 @@
             catch(PDOException $e){
               echo "Erreur : " . $e->getMessage();
             }
+            $sql1  = 'SELECT DISTINCT lieu FROM evenements';
+            $query1 = $dbco->prepare($sql1);
+            $query1->execute();
+            $Reponse1 = $query1->fetchAll();
+            $query1->closeCursor();
+
+
+            if(!empty($_POST)) {
+                $sql = 'SELECT * FROM evenements ';
+                $cpt = 0;
+                $compteurDesc = 0;
+                $compteurAsc = 0;
+                $compteurOrder = 0;
+                if($_POST['lieu']!='base') {
+                    if($cpt==0) {
+                        $sql = $sql.'WHERE ';
+                        $cpt = $cpt+1;
+                    }
+                    $sql = $sql.'lieu="'.$_POST['lieu'].'" ';
+                }
+                
+
+                if(!empty($_POST['description'])) {
+                    if($cpt==0) {
+                        $sql = $sql.'WHERE ';
+                        $cpt = $cpt+1;
+                        $sql = $sql.'description LIKE "%'.$_POST['description'].'%"';
+                    }
+                    else {
+                        $sql = $sql.'AND description LIKE "%'.$_POST['description'].'%" ';
+                    }
+                    
+                }
+                
+
+                if($_POST['nbparti']!='base') {
+                   
+                    if($_POST['nbparti']=='desc') {
+                        $sql = $sql.' order by nombreParticipants';
+                        $compteurDesc = $compteurDesc+1;
+                        $compteurOrder = $compteurOrder+1;
+                    }
+                    else {
+                        $sql = $sql.' order by nombreParticipants';
+                        $compteurAsc = $compteurAsc+1;
+                        $compteurOrder = $compteurOrder+1;
+                    }
+                }
+
+                if($_POST['date_tri']!='base') {
+                   
+                    if($_POST['date_tri']=='recent') {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',dateDebut';
+                            $compteurDesc = $compteurDesc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by dateDebut';
+                            $compteurDesc = $compteurDesc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                        
+                    }
+                    else {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',dateDebut';
+                            $compteurAsc = $compteurAsc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by dateDebut';
+                            $compteurAsc = $compteurAsc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                    }
+                }
+
+                if($compteurAsc>0) {
+                    $sql=$sql.' ASC';
+                }
+                else {
+                    if($compteurDesc>0) {
+                        $sql=$sql.' DESC';
+                    }
+                }
+
+                if($_POST['prix']!='base') {
+                   
+                    if($_POST['prix']=='desc') {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',prix';
+                            $compteurDesc = $compteurDesc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by prix';
+                            $compteurDesc = $compteurDesc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                        
+                    }
+                    else {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',prix';
+                            $compteurAsc = $compteurAsc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by prix';
+                            $compteurAsc = $compteurAsc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                    }
+                }
+
+                if($_POST['placedispo']!='base') {
+                   
+                    if($_POST['placedispo']=='desc') {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',placesRestantes';
+                            $compteurDesc = $compteurDesc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by placesRestantes';
+                            $compteurDesc = $compteurDesc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                        
+                    }
+                    else {
+                        if($compteurOrder!=0) {
+                            $sql = $sql.',placesRestantes';
+                            $compteurAsc = $compteurAsc+1;
+                        }
+                        else {
+                            $sql = $sql.' order by placesRestantes';
+                            $compteurAsc = $compteurAsc+1;
+                            $compteurOrder = $compteurOrder+1;
+                        }
+                    }
+                }
+
+                if($compteurAsc>0) {
+                    $sql=$sql.' ASC';
+                }
+                else {
+                    if($compteurDesc>0) {
+                        $sql=$sql.' DESC';
+                    }
+                }
 
 
 
+                    
+                
+            }
+            else {
+                $sql =  'select * from evenements';
+            }
+  
 
 ?>
 
@@ -37,9 +192,47 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 150px;">
+<form action="evenements.php" method="post">
+<div class="row justify-content-center">
+<h1 class="text-center title-top"> Nos événements </h1>
+
+    <select class="form-select" aria-label="Default select example" name="lieu" style="width: 150px; margin-left:20px;">
+        <option selected value="base">Lieu</option>
+        <?php for ($i=0; $i < count($Reponse1); $i++) { 
+            ?> <option value="<?php echo($Reponse1[$i]['lieu']) ?>"> <?php echo($Reponse1[$i]['lieu']) ?> </option> <?php 
+        } ?>
+    </select>
+    <select class="form-select" aria-label="Default select example" name="nbparti" style="width: 250px; margin-left:20px;">
+        <option selected value="base">Nombre de participant</option>
+        <option value="desc">Décroissant</option>
+        <option value="croi">Croissant</option>
+    </select>
+    <select class="form-select" aria-label="Default select example" name="date_tri" style="width: 150px; margin-left:20px;">
+        <option selected value="base">Date</option>
+        <option value="recent">Plus récent</option>
+        <option value="vieux">Plus vieux</option>
+    </select>
+</div>
+<div class="row justify-content-center mt-3">
+    <select class="form-select" aria-label="Default select example" name="prix" style="width: 150px; margin-left:20px;">
+        <option selected value="base">Prix</option>
+        <option value="desc">Décroissant</option>
+        <option value="croi">Croissant</option>
+    </select>
+    <select class="form-select" aria-label="Default select example" name="placedispo" style="width: 200px; margin-left:20px;">
+        <option selected value="base">Place disponible</option>
+        <option value="desc">Décroissant</option>
+        <option value="croi">Croissant</option>
+    </select>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Chercher un mot clé dans la description" style="width: 350px; margin-left:20px;" name="description">
+    <button type="submit" class="btn btn-success bg-success" style="margin-left:20px; width: 150px">Trier</button>
+    
+  </div>
+  </form>
+  <br><br>
     <div class="row justify-content-center">
-        <h1 class="text-center title-top"> Nos événements </h1>
-        <?php $sql =  'select * from evenements';
+        
+        <?php 
 		foreach  ($dbco->query($sql) as $row) { ?>
         
         <div class="col" style="margin-left: 60px" id="<?php echo($row['nom']) ?>">

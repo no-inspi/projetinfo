@@ -29,7 +29,7 @@ require("function.php");
                         }
                         else {
 
-                            $sql = 'INSERT INTO utilisateurs (nom,prenom,age,mail,mdp,pseudo,idtypeUtilisateurs) VALUES ("'.$nom.'","'.$prenom.'",'.$age.',"'.$mail.'","'.sha1($mdp).'","'.$pseudo.'",1) ';
+                            $sql = 'INSERT INTO utilisateurs (nom,prenom,age,mail,mdp,pseudo,idtypeUtilisateurs) VALUES ("'.$nom.'","'.$prenom.'",'.$age.',"'.$mail.'","'.sha1($mdp).'","'.$pseudo.'",2) ';
                             $query = $bdd->prepare($sql);
                             $query->execute();
                             $query->closeCursor();
