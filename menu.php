@@ -27,6 +27,22 @@
           </ul>
         </li>
         <?php } ?>
+        <?php if(isset($_SESSION['login'])) {
+                if($_SESSION['typeUtilisateurs'] = 1) { ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Espace Administrateur
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="gestionEvenements.php">Gérer les événements</a></li>
+            <li><a class="dropdown-item" href="gestionBoutique.php">Gérer la boutique</a></li>
+            <li><a class="dropdown-item" href="gestionMembres.php">Gérer les membres</a></li>
+          </ul>
+        </li>
+        <?php   }
+              } ?>
+
+
         
         
       </ul>
