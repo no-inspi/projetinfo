@@ -1,4 +1,4 @@
-<?php 
+<?php   //on affiche les inscriptions de l'user dans l'expace client (même fonctionnement que commandes.php)
             session_start();
 	 		$servname = 'localhost';
             $dbname = 'projetinfo1';
@@ -21,7 +21,7 @@
             $Reponse2 = $query2->fetchAll();
             $query2->closeCursor();
 
-            $sql1 = 'SELECT * FROM reservation WHERE idUtilisateur = "'.$Reponse2[0]['id'].'"';
+            $sql1 = 'SELECT * FROM reservation WHERE idUtilisateur = "'.$Reponse2[0]['id'].'"'; //séléction des places acheté par l'user via son id prise au dessus
             $query1 = $dbco->prepare($sql1);
             $query1->execute();
             $Reponse1 = $query1->fetchAll();
@@ -62,7 +62,7 @@
                 for($i=0 ; $i <= $nbElement = count($Reponse1) ; $i++) {
                     if(isset($Reponse1[$i])) { ?>
                         <tr>
-                        <td><?php 
+                        <td><?php // on affiche les réservations 
                         $sql = 'SELECT nom FROM evenements WHERE id = "'.$Reponse1[$i]['idEvenements'].'"';
                         $query = $dbco->prepare($sql);
                         $query->execute();

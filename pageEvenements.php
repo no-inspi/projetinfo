@@ -1,4 +1,4 @@
-<?php 
+<?php //page ou on effectue l'inscription à un événement
             session_start();
             if (!isset($_SESSION["login"])) {
                 header("Location: index.php");
@@ -23,7 +23,7 @@
             if(!empty($_POST)) {
                 $sql =  'select * from produit';
                 foreach  ($dbco->query($sql) as $row) {
-                    if(isset($_POST[$row['id']])) {
+                    if(isset($_POST[$row['id']])) { //on récupère l'id de l'événement sur celui ou on a cliqué pour pouvoir récupérer ses infos (via l'id)
                         $query = $dbco->prepare('SELECT * FROM evenements WHERE id='.$row['id']);
                         $query->execute();
                         $Reponse = $query->fetchAll();
@@ -64,7 +64,7 @@ include 'menu.php';
     <h1 class="text-center title-top"> L'événement </h1>
         <div class="col text-center">
             
-            <img src="<?php echo($Reponse[0]['lien_image']) ?>" height="400" style="width: 450px">
+            <img src="<?php echo($Reponse[0]['lien_image']) ?>" height="400" style="width: 450px"> <!-- on affiche les données de l'événement-->
             <ul class="" style="margin-top: 30px; list-style: none;">
                 <li name="nom">Nom : <?php echo($Reponse[0]['nom']) ?></li><br>
                 <li name="prix">Prix : <?php echo($Reponse[0]['prix']) ?>€</li>
@@ -104,15 +104,14 @@ include 'menu.php';
 <?php include 'footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <script>
-var cleave = new Cleave('.input-phone', {
+var cleave = new Cleave('.input-phone', { //bootstrap pour faire des numéros de téléphone correct
     phone: true,
     phoneRegionCode: 'fr'
 });
 
-var cleave = new Cleave('.input-bankcard', {
+var cleave = new Cleave('.input-bankcard', { //bootstrap pour faire des numéros de carte banquaire corrects
     creditCard: true,
     onCreditCardTypeChanged: function (type) {
-        // update UI ...
     }
 });
 </script>

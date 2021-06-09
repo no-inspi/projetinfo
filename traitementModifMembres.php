@@ -1,4 +1,4 @@
-<?php
+<?php //même fonctionnement que traitementModifBoutique.php
 
             session_start();
             require("function.php");	 		

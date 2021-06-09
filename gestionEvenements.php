@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); //même fonctionnement que gestionBoutique.php
 	 		      $servname = 'localhost';
             $dbname = 'projetinfo1';
             $user = 'root';

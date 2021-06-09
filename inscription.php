@@ -30,19 +30,18 @@ require("function.php");
                         else {
 
                             $sql = 'INSERT INTO utilisateurs (nom,prenom,age,mail,mdp,pseudo,idtypeUtilisateurs) VALUES ("'.$nom.'","'.$prenom.'",'.$age.',"'.$mail.'","'.sha1($mdp).'","'.$pseudo.'",2) ';
-                            $query = $bdd->prepare($sql);
+                            $query = $bdd->prepare($sql); //on l'ajoute à la base de donnée 
                             $query->execute();
                             $query->closeCursor();
 
 
 
-                            session_start();
+                            session_start(); //création des variables de session (connexion)
                             $_SESSION['login'] = $_POST['mail'];
                             $_SESSION['nom'] = $_POST['nom'];
                             $_SESSION['prenom'] = $_POST['prenom'];
                             $_SESSION['date_naissance'] = $_POST['age'];
                             $_SESSION['pseudo'] = $_POST['pseudo'];
-                            //$_SESSION['message'] = "";
                             header('Location: index.php');
                             exit();
                         }
@@ -70,7 +69,7 @@ require("function.php");
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="inscription.php" method="POST">
+<form action="inscription.php" method="POST"> <!--formulaire bootstrap form pour récupérer les infos-->
     <div class="row justify-content-center">
     <h1 class="text-center title-top">Inscription </h1>
         <div class="col-6">
@@ -103,7 +102,7 @@ include 'menu.php';
                 <div class="mb-5">
                     <label for="exampleInputPassword1" class="form-label">Confirmation De Mot De Passe</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="mdpConfirm" required>
-                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} ?></div>
+                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} //si les deux mots de passes sont différents on affiche l'erreur ici ?></div>
                 </div>
                 <button type="submit" class="btn btn-primary">Inscription</button>
 

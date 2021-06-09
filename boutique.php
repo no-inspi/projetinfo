@@ -17,7 +17,7 @@
               echo "Erreur : " . $e->getMessage();
             }
 
-            if(!empty($_POST)) {
+            if(!empty($_POST)) { //barre de recherche si on a une requete, on vérifie le type de requete (decroissant ou croissant) et on tri
               if($_POST['select_input']=='desc') {
                 $sql =  'select * from produit order by prix desc';
               }
@@ -60,7 +60,7 @@ include 'menu.php';
 <h1 class="text-center title-top"> La boutique </h1>
 
   <select class="form-select" aria-label="Default select example" name="select_input" style="width: 300px">
-          <option selected>Prix</option>
+          <option selected>Prix</option> <!--bootstrap barre de recherche-->
           <option value="desc">Décroissant</option>
           <option value="croi">Croissant</option>
       </select>

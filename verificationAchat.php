@@ -22,10 +22,10 @@
             }
 
             $date = date("Y-m-d"); // définition du type de date (année-mois-jour)
-            if(!empty($_POST)) { //post n'est pas vide s'il on a cliquer sur le bouton acheter dans produit.php
+            if(!empty($_POST)) { //post n'est pas vide s'il on a cliquer sur le bouton acheter dans produit.php et qu'on ait pas remplis les infos correctement 
 
                 $sql = 'UPDATE utilisateurs SET adresse="'.$_POST['adresse'].'", ville="'.$_POST['ville'].'",codePostale='.$_POST['codepostal'].',telephone="'.$_POST['phone'].'" WHERE mail="'.$_SESSION['login'].'"';
-                $query = $dbco->prepare($sql); //on ajoute les données prise dans produit.php lors de l'achat dans la bdd
+                $query = $dbco->prepare($sql); //on ajoute les données prisent dans produit.php lors de l'achat dans la bdd
                 $query->execute();
                 $query->closeCursor();
 

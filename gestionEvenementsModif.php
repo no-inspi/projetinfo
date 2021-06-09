@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); //même principe que gestionBoutiqueModif.php
             require("function.php");	 		
             if(!isset($_SESSION['login']) || empty($_POST)) {
                 header("Location: index.php");
@@ -8,18 +8,7 @@
             else {
 
                 $bdd = connexionBDD();
-
-
-                // if(!empty($_POST)) {
-                //     $sql = 'UPDATE evenements SET nom="'.$_POST['nom'].'", prix="'.$_POST['prix'].'" , lieu="'.$_POST['lieu'].'" , lien_image="'.$_POST['lien_image'].'" , dateDebut="'.$_POST['dateDebut'].'" , dateFin="'.$_POST['dateFin'].'" , dateLimiteInscription="'.$_POST['dateLimiteInscription'].'" , descritpion="'.$_POST['description'].'" , nombreParticipants="'.$_POST['nombreParticipants'].'" , placesRestantes="'.$_POST['placesRestantes'].'" WHERE id="'.$Reponse['id'].'"';
-                //     $query = $bdd->prepare($sql);
-                //     $query->execute();
-                //     $query->closeCursor();
-                //     $message = 'Le produit a bien été modifié';
-                // }
-
-
-                
+            
                 $sql = 'SELECT * FROM evenements';
                 $query = $bdd->prepare($sql);
                 $query->execute();
@@ -37,7 +26,7 @@
                         
                     }
                 }
-                $date_debut_tamp = strtotime($Reponse1[0]['dateDebut']);
+                $date_debut_tamp = strtotime($Reponse1[0]['dateDebut']); // petite différence : ici on doit redéfinir les date pour qu'on puisse les modifier
                 $date_debut = date('Y-m-d',$date_debut_tamp);
                 $date_fin_tamp = strtotime($Reponse1[0]['dateFin']);
                 $date_fin = date('Y-m-d',$date_fin_tamp);

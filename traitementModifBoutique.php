@@ -2,7 +2,7 @@
 
             session_start();
             require("function.php");	 		
-            if(!isset($_SESSION['login']) || empty($_POST)) {
+            if(!isset($_SESSION['login']) || empty($_POST)) { // si on est pas connecté ou que l'on a rien changé on retourne a l'accueil sinon on modifie
                 header("Location: index.php");
                 die();
             }

@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); 
             require("function.php");	 		
             if(!isset($_SESSION['login'])) {
                 header("Location: index.php");
@@ -16,7 +16,7 @@
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
 
-                $end_tab = end($Reponse);
+                $end_tab = end($Reponse); //on récupère l'id présent dans le bouton (correspond au produit qu'on veut modif) si le post correspond à l'id on modifie le produit avec l'id correspondante
                 for ($i=0; $i <= $end_tab['id']; $i++) { 
                     if(isset($_POST[$i])) {
                         $sql1 = 'SELECT * FROM produit WHERE id='.$i.'';
@@ -69,7 +69,7 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="traitementModifBoutique.php" method="POST">
+<form action="traitementModifBoutique.php" method="POST"> <!-- formulaire pour récupérer les info enregistrées-->
     <div class="row justify-content-center">
     <h1 class="text-center title-top">Modification de l'evenement</h1>
         <div class="col-6">

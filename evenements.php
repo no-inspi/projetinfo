@@ -17,20 +17,20 @@
             catch(PDOException $e){
               echo "Erreur : " . $e->getMessage();
             }
-            $sql1  = 'SELECT DISTINCT lieu FROM evenements';
+            $sql1  = 'SELECT DISTINCT lieu FROM evenements'; //on selectionne distinctement les lieus pour le moteur de recherche
             $query1 = $dbco->prepare($sql1);
             $query1->execute();
             $Reponse1 = $query1->fetchAll();
             $query1->closeCursor();
 
 
-            if(!empty($_POST)) {
+            if(!empty($_POST)) { // moteur de recherche 
                 $sql = 'SELECT * FROM evenements ';
-                $cpt = 0;
+                $cpt = 0; //sert à faire les requetes sql correctement (where)
                 $compteurDesc = 0;
                 $compteurAsc = 0;
                 $compteurOrder = 0;
-                if($_POST['lieu']!='base') {
+                if($_POST['lieu']!='base') { // si le lieu est différent que ca valeur de base (i.e que l'user a selectionner qq chose) on incremente le compteur si celui-ci est nul et on fais la requete de tri
                     if($cpt==0) {
                         $sql = $sql.'WHERE ';
                         $cpt = $cpt+1;
@@ -43,20 +43,20 @@
                     if($cpt==0) {
                         $sql = $sql.'WHERE ';
                         $cpt = $cpt+1;
-                        $sql = $sql.'description LIKE "%'.$_POST['description'].'%"';
+                        $sql = $sql.'description LIKE "%'.$_POST['description'].'%"'; //pour la bonne requete encore
                     }
                     else {
-                        $sql = $sql.'AND description LIKE "%'.$_POST['description'].'%" ';
+                        $sql = $sql.'AND description LIKE "%'.$_POST['description'].'%" '; //si le lieu est selectionner on fait une requete correcte
                     }
                     
                 }
                 
 
-                if($_POST['nbparti']!='base') {
+                if($_POST['nbparti']!='base') { //si sélection
                    
-                    if($_POST['nbparti']=='desc') {
+                    if($_POST['nbparti']=='desc') { // tri décroissant
                         $sql = $sql.' order by nombreParticipants';
-                        $compteurDesc = $compteurDesc+1;
+                        $compteurDesc = $compteurDesc+1; //on compte car on ne peut pas faire un tri decroissant et un croissant si les chiffres de concorde pas et surtout pour faire des requetes sql plus tard
                         $compteurOrder = $compteurOrder+1;
                     }
                     else {
@@ -67,14 +67,14 @@
                 }
 
                 if($_POST['date_tri']!='base') {
-                   
+                
                     if($_POST['date_tri']=='recent') {
                         if($compteurOrder!=0) {
-                            $sql = $sql.',dateDebut';
+                            $sql = $sql.',dateDebut'; //comme ici avec la virgule
                             $compteurDesc = $compteurDesc+1;
                         }
                         else {
-                            $sql = $sql.' order by dateDebut';
+                            $sql = $sql.' order by dateDebut'; //comme il n'y a pas eu de requete precedemment on met l'ordre 
                             $compteurDesc = $compteurDesc+1;
                             $compteurOrder = $compteurOrder+1;
                         }
@@ -93,16 +93,7 @@
                     }
                 }
 
-                if($compteurAsc>0) {
-                    $sql=$sql.' ASC';
-                }
-                else {
-                    if($compteurDesc>0) {
-                        $sql=$sql.' DESC';
-                    }
-                }
-
-                if($_POST['prix']!='base') {
+                if($_POST['prix']!='base') { //même fonctionnement
                    
                     if($_POST['prix']=='desc') {
                         if($compteurOrder!=0) {
@@ -156,7 +147,7 @@
                     }
                 }
 
-                if($compteurAsc>0) {
+                if($compteurAsc>0) { //l'ordre croissant sera prioritaire
                     $sql=$sql.' ASC';
                 }
                 else {
@@ -192,7 +183,7 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 150px;">
-<form action="evenements.php" method="post">
+<form action="evenements.php" method="post"> <!-- affichage bootstrap d'une barre de recherche avec des options-->
 <div class="row justify-content-center">
 <h1 class="text-center title-top"> Nos événements </h1>
 
@@ -232,7 +223,7 @@ include 'menu.php';
   <br><br>
     <div class="row justify-content-center">
         
-        <?php 
+        <?php // on affiche les événements et on met en place un bouton pour s'inscrire encore avec une boucle for pour afficher le nombre d'événements exact
 		foreach  ($dbco->query($sql) as $row) { ?>
         
         <div class="col" style="margin-left: 60px" id="<?php echo($row['nom']) ?>">

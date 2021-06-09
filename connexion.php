@@ -12,15 +12,15 @@ require("function.php");
                
                 $bdd = connexionBDD();
                 // on recherche si ce login est déjà utilisé par un autre membre
-                $sql = 'SELECT count(*) FROM utilisateurs WHERE mail="'.$_POST['mail'].'" AND mdp="'.sha1($_POST['mdp']).'"';
+                $sql = 'SELECT count(*) FROM utilisateurs WHERE mail="'.$_POST['mail'].'" AND mdp="'.sha1($_POST['mdp']).'"'; //compte le nombre de utilisateur ayant l'adresse email et le mdp qui concorde
                 $query = $bdd->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
-                if($Reponse[0]['count(*)']==0) {
+                if($Reponse[0]['count(*)']==0) { //s'il y en a pas erreur
                     $erreur = 'Cette email et ce mot de passe ne correspondent pas';
                 }
-                else {
+                else { //sibob on le connecte
                     $sql = 'SELECT * FROM utilisateurs WHERE mail="'.$_POST['mail'].'" AND mdp="'.sha1($_POST['mdp']).'"';
                     $query = $bdd->prepare($sql);
                     $query->execute();
@@ -34,14 +34,13 @@ require("function.php");
                     $query1->closeCursor();
 
 
-                    session_start();
+                    session_start(); //création des variables de session 
                     $_SESSION['login'] = $Reponse[0]['mail'];
                     $_SESSION['nom'] = $Reponse[0]['nom'];
                     $_SESSION['prenom'] = $Reponse[0]['prenom'];
                     $_SESSION['date_naissance'] = $Reponse[0]['age'];
                     $_SESSION['pseudo'] = $Reponse[0]['pseudo'];
                     $_SESSION['typeUtilisateurs'] = $Reponse1[0]['id'];
-                    //$_SESSION['message'] = "";
                     header('Location: index.php');
                     exit();
                 }
@@ -67,7 +66,7 @@ require("function.php");
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="connexion.php" method="POST">
+<form action="connexion.php" method="POST"> <!--formulaire pour rentrer les informations de connexion et les prendre grace au POST-->
     <div class="row justify-content-center">
     <h1 class="text-center title-top">Connexion </h1>
         <div class="col-6">
@@ -79,7 +78,7 @@ include 'menu.php';
                 <div class="mb-5">
                     <label for="exampleInputPassword1" class="form-label">Mot De Passe</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="mdp" required>
-                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} ?></div>
+                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} ?></div> <!--afficher l'erreur si elle existe-->
                 </div>
                 <button type="submit" class="btn btn-primary">Connexion</button>
 

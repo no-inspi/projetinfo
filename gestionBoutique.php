@@ -6,7 +6,7 @@
             $user = 'root';
             $pass = '';
             $tamp = 0;
-            if(!isset($_SESSION['login']) || $_SESSION['typeUtilisateurs']!=1) {
+            if(!isset($_SESSION['login']) || $_SESSION['typeUtilisateurs']!=1) { // securité pour qu'un membre ne puisse pas se connecter
                 header("Location: index.php");
                 die();
             }
@@ -29,9 +29,9 @@
 
             $end_tab = end($Reponse);
             
-            if(!empty($_POST)) {
+            if(!empty($_POST)) { // si on appuie sur un bouton suppr 
                 var_dump($_POST);
-                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                for ($i=0; $i <= $end_tab['id']; $i++) { // on cherche l'id correspondant au produit à suppr et on le fait
                     if(isset($_POST[$i])) {
                         $sql1 = 'DELETE FROM produit WHERE id='.$i.'';
                         $query1 = $dbco->prepare($sql1);
@@ -74,7 +74,7 @@
             </thead>
             <tbody>
             <?php 
-                    for($i=0 ; $i <= $nbElement = count($Reponse) ; $i++) {
+                    for($i=0 ; $i <= $nbElement = count($Reponse) ; $i++) { //affichage en tableau (bootstrap) pour avoir le nb exact de produit 
                         if(isset($Reponse[$i])) { ?>
                             <tr>
                             <th scope="row"><?php echo($Reponse[$i]['nom']); ?></th>

@@ -1,5 +1,5 @@
 <?php 
-function connexionBDD() {
+function connexionBDD() { //connexion à la bdd 
     $servname = 'localhost';
     $dbname = 'projetinfo1';
     $user = 'root';

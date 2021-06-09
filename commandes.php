@@ -16,13 +16,13 @@
             catch(PDOException $e){
               echo "Erreur : " . $e->getMessage();
             }
-            $sql2 = 'SELECT id FROM utilisateurs WHERE mail = "'.$_SESSION['login'].'"';
+            $sql2 = 'SELECT id FROM utilisateurs WHERE mail = "'.$_SESSION['login'].'"'; // on prend l'id de l'user connecté
             $query2 = $dbco->prepare($sql2);
             $query2->execute();
             $Reponse2 = $query2->fetchAll();
             $query2->closeCursor();
 
-            $sql1 = 'SELECT * FROM produitvendu WHERE idUtilisateur = "'.$Reponse2[0]['id'].'"';
+            $sql1 = 'SELECT * FROM produitvendu WHERE idUtilisateur = "'.$Reponse2[0]['id'].'"'; //on prend les données de produit ou l'id de l'user concorde
             $query1 = $dbco->prepare($sql1);
             $query1->execute();
             $Reponse1 = $query1->fetchAll();
@@ -56,7 +56,7 @@
             </thead>
             <tbody>
                 <?php 
-                for($i=0 ; $i <= $nbElement = count($Reponse1) ; $i++) {
+                for($i=0 ; $i <= $nbElement = count($Reponse1) ; $i++) { //on affiche avec une boucle for (pour avoir le bon nombre de commande) les commandes
                     if(isset($Reponse1[$i])) { ?>
                         <tr>
                         <th scope="row"><?php echo($Reponse1[$i]['id']); ?></th>

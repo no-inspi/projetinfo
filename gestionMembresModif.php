@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); //même fonctionnement que gestionBoutiqueModif.php
             require("function.php");	 		
             if(!isset($_SESSION['login'])) {
                 header("Location: index.php");

@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); //même fonctionnement que gestionBoutique.php
 	 		$servname = 'localhost';
             $dbname = 'projetinfo1';
             $user = 'root';
@@ -86,7 +86,7 @@
                             <td><?php echo($Reponse[$i]['age']); ?></td>
                             <td><?php echo($Reponse[$i]['mail']); ?></td>
                             <td><?php echo($Reponse[$i]['pseudo']); ?></td>
-                            <td><?php  $sql2 = 'SELECT type FROM typeutilisateurs WHERE id = "'.$Reponse[$i]['idtypeUtilisateurs'].'"';
+                            <td><?php  $sql2 = 'SELECT type FROM typeutilisateurs WHERE id = "'.$Reponse[$i]['idtypeUtilisateurs'].'"'; //sauf ici on l'on doit récupérer le type user dans une autre table pour pouvoir afficher des caractères (admin ou membre) et nom un chiffre (1 ou 2)
                             $query2 = $dbco->prepare($sql2);
                             $query2->execute();
                             $Reponse2 = $query2->fetchAll();

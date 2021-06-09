@@ -7,24 +7,24 @@
             }
             else {
                 $bdd = connexionBDD();
-                $sql = 'SELECT mdp,id FROM utilisateurs WHERE mail="'.$_SESSION['login'].'"';
+                $sql = 'SELECT mdp,id FROM utilisateurs WHERE mail="'.$_SESSION['login'].'"'; //on récupère le mdp et l'id de l'utilisateur faisant la requete
                 $query = $bdd->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
                 if(!empty($_POST)) {
-                    $mdp = sha1($_POST['mdp']);
+                    $mdp = sha1($_POST['mdp']); //on cripte le mdp rentré pour pouvoir le comparer à celui dans la bdd
                     $newMdp = $_POST['newMdp'];
                     $newMdpConfirm = $_POST['newMdpConfirm'];
-                    if($mdp != $Reponse[0]['mdp']) {
+                    if($mdp != $Reponse[0]['mdp']) { // on le compare 
                         $erreur1 = 'le mot de passe rentré est incorrect';
                     }
                     else {
-                        if ($newMdp != $newMdpConfirm) {
+                        if ($newMdp != $newMdpConfirm) { //on test que les deux nouveaux mdp sont identiques
                             $erreur = 'Les 2 mots de passe sont différents.';
                         }
                         else {
-                            $sql2 = 'UPDATE utilisateurs SET mdp="'.sha1($newMdp).'" WHERE id='.$Reponse[0]['id'].'';
+                            $sql2 = 'UPDATE utilisateurs SET mdp="'.sha1($newMdp).'" WHERE id='.$Reponse[0]['id'].''; //modification du mdp avec criptage évidemment par la fonction sha1()
                             $query2 = $bdd->prepare($sql2);
                             $query2->execute();
                             $query2->closeCursor();
@@ -78,7 +78,7 @@ include 'menu.php';
                 <div class="mb-3">
                     <label for="mdp" class="form-label">Ancien mot de passe</label>
                     <input placeholder="ancien mot de passe" type="password" class="form-control" id="mdp" name="mdp" required>
-                    <div id="" class="form-text text-danger"><?php if(isset($erreur1)) {echo($erreur1);} ?></div>
+                    <div id="" class="form-text text-danger"><?php if(isset($erreur1)) {echo($erreur1);} //si l'ancien mot de passe n'est pas correct on affiche l'erreur ici ?></div>
                 </div>
                 <div class="mb-3">
                     <label for="newMdp" class="form-label">Nouveau mot de passe</label>
@@ -87,7 +87,7 @@ include 'menu.php';
                 <div class="mb-3">
                     <label for="newMdpConfirm" class="form-label">Confirmation nouveau mot de passe</label>
                     <input placeholder="confirmation du nouveau mot de passe" type="password" class="form-control" id="mdp" name="newMdpConfirm" required>
-                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} ?></div>
+                    <div id="" class="form-text text-danger"><?php if(isset($erreur)) {echo($erreur);} //si le mdp de confirmation n'est pas le même que le mdp rentré : erreur ?></div>
                 </div>
                 <button type="submit" class="btn btn-primary" >Modifier mon mot de passe</button>
         </div>
