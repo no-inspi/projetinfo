@@ -1,4 +1,4 @@
-<!-- Site footer -->
+<!-- footer bootstrap -->
 <footer class="site-footer">
       <div class="container">
         <div class="row">

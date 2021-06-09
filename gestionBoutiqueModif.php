@@ -10,21 +10,23 @@
                 $bdd = connexionBDD();
 
 
-                if(!empty($_POST)) {
-                    $sql = 'UPDATE produit SET nom="'.$_POST['nom'].'" , prix="'.$_POST['prix'].'" , stock='.$_POST['stock'].' , lien_image="'.$_POST['lien_image'].'" WHERE  id="'.$Reponse[]['id']'"';
-                    $query = $bdd->prepare($sql);
-                    $query->execute();
-                    $query->closeCursor();
-                    $message = 'Le produit a bien été modifié';
-                }
-
-
-                
-                $sql = 'SELECT * FROM produit WHERE id="'.$Reponse['id'].'"';
+                $sql = 'SELECT * FROM produit';
                 $query = $bdd->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
+
+                $end_tab = end($Reponse);
+                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                    if(isset($_POST[$i])) {
+                        $sql1 = 'SELECT * FROM produit WHERE id='.$i.'';
+                        $query1 = $bdd->prepare($sql1);
+                        $query1->execute();
+                        $Reponse1 = $query1->fetchAll();
+                        $query1->closeCursor();
+                        
+                    }
+                }
             }
 
 
@@ -41,8 +43,8 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
   </head>
   <body>
-  <!-- symbole pour alert bootstrap -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+   <!-- symbole pour alert bootstrap -->
+   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
   </symbol>
@@ -67,33 +69,33 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="informations.php" method="POST">
+<form action="traitementModifBoutique.php" method="POST">
     <div class="row justify-content-center">
-    <h1 class="text-center title-top">Modification du produit </h1>
+    <h1 class="text-center title-top">Modification de l'evenement</h1>
         <div class="col-6">
                 <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
-                    <input placeholder="Votre nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse[0]['nom']) ?>" required>
+                    <label for="nom" class="form-label">Nom du produit</label>
+                    <input placeholder="Le nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse1[0]['nom']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="prix" class="form-label">Prix</label>
-                    <input placeholder="Prix" type="text" class="form-control" id="prix" name="prix" value="<?php echo($Reponse[0]['prix']) ?>" required>
-                </div>
-                <div class="mb-3">
-                    <label for="stock" class="form-label">Stock</label>
-                    <input placeholder="Stock" type="number" class="form-control" id="stock" min="0" max="1500" name="age" value="<?php echo($Reponse[0]['stock']) ?>" required>
+                    <input placeholder="Prix" type="text" class="form-control" id="prix" name="prix" value="<?php echo($Reponse1[0]['prix']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="lien_image" class="form-label">Lien de l'image</label>
-                    <input placeholder="Lien image" type="text" class="form-control" id="lien_image" name="lien_image" value="<?php echo($Reponse[0]['lien_image']) ?>" required>
+                    <input placeholder="le lien de l'image" type="text" class="form-control" id="lien_image" name="lien_image" value="<?php echo($Reponse1[0]['lien_image']) ?>" required>
                 </div>
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Le stock</label>
+                    <input placeholder="Stock" type="number" class="form-control" id="stock" name="stock" value="<?php echo($Reponse[0]['stock']) ?>" required>
+                </div>
+                <input style="display: none;" name="id" value="<?php echo($Reponse[0]['id']); ?>">
                 <button type="submit" class="btn btn-primary">Modifier le produit</button>
 
         </div>
     </div>
     </form>
 </div>
-
 <?php include 'footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

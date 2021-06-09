@@ -1,5 +1,5 @@
 <?php 
-            session_start();
+            session_start(); // même fonctionnement que verificationInscription.php
             if (!isset($_SESSION["login"])) {
                 header("Location: index.php");
                 die();
@@ -21,7 +21,7 @@
               echo "Erreur : " . $e->getMessage();
             }
 
-            $date = date("Y-m-d H:i:s");
+            $date = date("Y-m-d H:i:s"); //date lambda + heure:min:sec
             if(!empty($_POST)) {
 
                 $sql = 'UPDATE utilisateurs SET adresse="'.$_POST['adresse'].'", ville="'.$_POST['ville'].'",codePostale='.$_POST['codepostal'].',telephone="'.$_POST['phone'].'" WHERE mail="'.$_SESSION['login'].'"';

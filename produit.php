@@ -1,6 +1,6 @@
 <?php 
-            session_start();
-            if (!isset($_SESSION["login"])) {
+            session_start(); 
+            if (!isset($_SESSION["login"]))  { //page inaccessible sans être connecté
                 header("Location: index.php");
                 die();
             }
@@ -20,11 +20,11 @@
             catch(PDOException $e){
               echo "Erreur : " . $e->getMessage();
             }
-            if(!empty($_POST)) {
-                $sql =  'select * from produit';
+            if(!empty($_POST)) { //c'est la variable prise dans le bouton dans boutique.php donc s'il n'est pas vide
+                $sql =  'select * from produit'; //on prends toute les valeurs de la table produit
                 foreach  ($dbco->query($sql) as $row) {
-                    if(isset($_POST[$row['id']])) {
-                        $query = $dbco->prepare('SELECT * FROM produit WHERE id='.$row['id']);
+                    if(isset($_POST[$row['id']])) {  //si la valeur prise dans le bouton avec l'id (donc si on a l'id du produit)
+                        $query = $dbco->prepare('SELECT * FROM produit WHERE id='.$row['id']); //on selectionne toutes les valeurs du produit dans la table produit
                         $query->execute();
                         $Reponse = $query->fetchAll();
                         $query->closeCursor();
@@ -32,7 +32,7 @@
                 }
             }
             else {
-                header("Location: index.php");
+                header("Location: index.php"); //si on a pas de valeur on renvoie a l'accueil
                 die();
             }
             
@@ -59,15 +59,16 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="verificationAchat.php" method="POST">
+<form action="verificationAchat.php" method="POST"> 
+<! -- formulaire pour rentrer les coordonnées pour effectuer l'achat et pour pouvoir les vérifier ensuite -->
     <div class="row justify-content-center">
     <h1 class="text-center title-top"> Votre produit </h1>
         <div class="col text-center">
             
             <img src="<?php echo($Reponse[0]['lien_image']) ?>" height="400" style="width: 450px">
             <ul class="" style="margin-top: 30px; list-style: none;">
-                <li name="nom">Nom : <?php echo($Reponse[0]['nom']) ?></li><br>
-                <li name="prix">Prix : <?php echo($Reponse[0]['prix']) ?>€</li>
+                <li name="nom">Nom : <?php echo($Reponse[0]['nom']) //on affiche le nom du produit grace a la requete sql en haut du fichier ?></li><br>
+                <li name="prix">Prix : <?php echo($Reponse[0]['prix'])//affiche le prix ?>€</li>
             </ul>
             
         </div>
@@ -92,7 +93,7 @@ include 'menu.php';
                         <input type="tel" class="form-control form-input input-phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Votre Email" name="phone" required>
                         <label for="exampleInputEmail1" class="form-label">Téléphone</label>
                     </div>
-                    <input value="<?php echo($Reponse[0]['id']) ?>" name="id" style="display: none;">
+                    <input value="<?php echo($Reponse[0]['id']) //permet la vérification ?>" name="id" style="display: none;">
         </div>
         </div>
     <div class="text-center">
@@ -104,7 +105,7 @@ include 'menu.php';
 <?php include 'footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 <script>
-var cleave = new Cleave('.input-phone', {
+var cleave = new Cleave('.input-phone', { //bootstrap numéro de téléphone
     phone: true,
     phoneRegionCode: 'fr'
 });
@@ -112,7 +113,7 @@ var cleave = new Cleave('.input-phone', {
 var cleave = new Cleave('.input-bankcard', {
     creditCard: true,
     onCreditCardTypeChanged: function (type) {
-        // update UI ...
+        // bootstrap carte bancaire (bon numéro)
     }
 });
 </script>

@@ -21,11 +21,11 @@
               echo "Erreur : " . $e->getMessage();
             }
 
-            $date = date("Y-m-d");
-            if(!empty($_POST)) {
+            $date = date("Y-m-d"); // définition du type de date (année-mois-jour)
+            if(!empty($_POST)) { //post n'est pas vide s'il on a cliquer sur le bouton acheter dans produit.php
 
                 $sql = 'UPDATE utilisateurs SET adresse="'.$_POST['adresse'].'", ville="'.$_POST['ville'].'",codePostale='.$_POST['codepostal'].',telephone="'.$_POST['phone'].'" WHERE mail="'.$_SESSION['login'].'"';
-                $query = $dbco->prepare($sql);
+                $query = $dbco->prepare($sql); //on ajoute les données prise dans produit.php lors de l'achat dans la bdd
                 $query->execute();
                 $query->closeCursor();
 
@@ -42,7 +42,7 @@
                 $Reponse1 = $query1->fetchAll();
                 $query1->closeCursor();
 
-                if($Reponse[0]['stock']>=1) {
+                if($Reponse[0]['stock']>=1) { //on vérifie qu'il reste du stock
                     $sql = 'INSERT INTO produitvendu(idProduit,idUtilisateur,date_ajout,montant) VALUES ('.$_POST['id'].','.$Reponse1[0]['id'].',"'.$date.'",'.$Reponse[0]['prix'].') ';
                     $query = $dbco->prepare($sql);
                     $query->execute();

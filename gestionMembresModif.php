@@ -10,22 +10,23 @@
                 $bdd = connexionBDD();
 
 
-                if(!empty($_POST)) {
-                    $sql = 'UPDATE utilisateurs SET nom="'.$_POST['nom'].'" , prenom="'.$_POST['prenom'].'" , age='.$_POST['age'].' , pseudo="'.$_POST['pseudo'].'" , mail="'.$_POST['mail'].'" WHERE ="''"';
-                    $query = $bdd->prepare($sql);
-                    $query->execute();
-                    $query->closeCursor();
-                    $message = 'Les données ont bien été modifiées';
-                    echo($message);
-                }
-
-
-                
-                $sql = 'SELECT * FROM utilisateurs WHERE mail="''"';
+                $sql = 'SELECT * FROM utilisateurs';
                 $query = $bdd->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
+
+                $end_tab = end($Reponse);
+                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                    if(isset($_POST[$i])) {
+                        $sql1 = 'SELECT * FROM utilisateurs WHERE id='.$i.'';
+                        $query1 = $bdd->prepare($sql1);
+                        $query1->execute();
+                        $Reponse1 = $query1->fetchAll();
+                        $query1->closeCursor();
+                        
+                    }
+                }
             }
 
            
@@ -70,37 +71,57 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="informations.php" method="POST">
+<form action="traitementModifMembres.php" method="POST">
     <div class="row justify-content-center">
-    <h1 class="text-center title-top">Gestion des informations des membres </h1>
+    <h1 class="text-center title-top">Modification des utilisateurs</h1>
         <div class="col-6">
                 <div class="mb-3">
                     <label for="nom" class="form-label">Nom</label>
-                    <input placeholder="Votre nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse[0]['nom']) ?>" required>
+                    <input placeholder="Le nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse1[0]['nom']) ?>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="prenom" class="form-label">Prénom</label>
-                    <input placeholder="Votre prénom" type="text" class="form-control" id="prenom" name="prenom" value="<?php echo($Reponse[0]['prenom']) ?>" required>
-                </div>
-                <div class="mb-3">
-                    <label for="age" class="form-label">Age</label>
-                    <input placeholder="Votre âge" type="number" class="form-control" id="age" min="13" max="110" name="age" value="<?php echo($Reponse[0]['age']) ?>" required>
+                    <label for="prenom" class="form-label">Prenom</label>
+                    <input placeholder="Le prenom" type="text" class="form-control" id="prenom" name="prenom" value="<?php echo($Reponse1[0]['prenom']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="pseudo" class="form-label">Pseudo</label>
-                    <input placeholder="Votre Pseudo" type="text" class="form-control" id="pseudo" name="pseudo" value="<?php echo($Reponse[0]['pseudo']) ?>" required>
+                    <input placeholder="Le pseudo" type="text" class="form-control" id="pseudo" name="pseudo" value="<?php echo($Reponse1[0]['pseudo']) ?>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Votre Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Votre Email" name="mail" value="<?php echo($Reponse[0]['mail']) ?>" required>
+                    <label for="age" class="form-label">Age</label>
+                    <input placeholder="age" type="number" class="form-control" id="age" name="age" value="<?php echo($Reponse1[0]['age']) ?>" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Modifier mes informations</button>
+                <div class="mb-3">
+                    <label for="idtypeUtilisateurs" class="form-label">Id Type d'utilisateurs (1=admin 2=membre) </label>
+                    <input placeholder="idtypeUtilisateurs" type="number" class="form-control" id="idtypeUtilisateurs" name="idtypeUtilisateurs" value="<?php echo($Reponse1[0]['idtypeUtilisateurs']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mail" class="form-label">Email</label>
+                    <input placeholder="Le mail" type="text" class="form-control" id="mail" name="mail" value="<?php echo($Reponse1[0]['mail']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="adresse" class="form-label">L'adresse</label>
+                    <input placeholder="L'adresse" type="text" class="form-control" id="adresse" name="adresse" value="<?php echo($Reponse1[0]['adresse']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="ville" class="form-label">La ville</label>
+                    <input placeholder="La ville" type="text" class="form-control" id="ville" name="ville" value="<?php echo($Reponse1[0]['ville']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="codePostale" class="form-label">Le code postale</label>
+                    <input placeholder="Le code postale" type="number" class="form-control" id="codePostale" name="codePostale" value="<?php echo($Reponse1[0]['codePostale']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telephone" class="form-label">Le numéro telephone</label>
+                    <input placeholder="Le numéro de telephone" type="tel" class="form-control form-input input-phone" id="telephone" name="telephone" value="<?php echo($Reponse1[0]['telephone']) ?>" required>
+                </div>
+                <input style="display: none;" name="id" value="<?php echo($Reponse[0]['id']); ?>">
+                <button type="submit" class="btn btn-primary">Modifier les informations</button>
 
         </div>
     </div>
     </form>
 </div>
-
 <?php include 'footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>

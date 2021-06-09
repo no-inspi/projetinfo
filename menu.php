@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
+  <div class="container-fluid">      <! -- navbar bootstrap --> 
     <a class="navbar-brand" href="index.php">La Guilde</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -27,9 +27,9 @@
           </ul>
         </li>
         <?php } ?>
-        <?php if(isset($_SESSION['login'])) {
+        <?php if(isset($_SESSION['login'])) { //on ne le voit pas si on n'est pas connecté
                 if($_SESSION['typeUtilisateurs'] = 1) { ?>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown"> 
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Espace Administrateur
           </a>
@@ -48,7 +48,7 @@
       </ul>
      
       <div class="d-flex">
-          <?php if(!isset($_SESSION['login'])) { ?>
+          <?php if(!isset($_SESSION['login'])) { //si on est pas connecté on affiche le bouton connexion / inscription sinon juste deconnexion ?>
             <a class="btn btn-outline-primary" href="connexion.php">Connexion</a>
             <a class="btn btn-outline-primary" href="inscription.php" style="margin-left: 20px">Inscription</a>
           <?php } ?>

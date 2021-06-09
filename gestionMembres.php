@@ -1,6 +1,6 @@
 <?php 
             session_start();
-	 		      $servname = 'localhost';
+	 		$servname = 'localhost';
             $dbname = 'projetinfo1';
             $user = 'root';
             $pass = '';
@@ -22,15 +22,21 @@
             $query->execute();
             $Reponse = $query->fetchAll();
             $query->closeCursor();
-
-            $sql1 = 'SELECT id FROM utilisateurs';
-            $query1 = $dbco->prepare($sql1);
-            $query1->execute();
-            $Reponse1 = $query1->fetchAll();
-            $query1->closeCursor();
-
+            
+            $end_tab = end($Reponse);
+            
             if(!empty($_POST)) {
-                  
+                var_dump($_POST);
+                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                    if(isset($_POST[$i])) {
+                        $sql1 = 'DELETE FROM utilisateurs WHERE id='.$i.'';
+                        $query1 = $dbco->prepare($sql1);
+                        $query1->execute();
+                        $query1->closeCursor();
+                        header('Location: gestionMembres.php');
+                        die();
+                    }
+                }
             }
 ?>
 
@@ -46,7 +52,6 @@
   </head>
   <body>
 <?php include 'menu.php'; ?>
-<form action="gestionBoutique.php" method="POST">
     <div class="container" style="margin-bottom: 150px;">
         <div class="row justify-content-center">
             <h1 class="text-center title-top"> Gestion des membres </h1>
@@ -70,8 +75,8 @@
                 </thead>
                 <tbody>
                 <?php 
-                    for($i=0 ; $i <= $nbElement = count($Reponse1) ; $i++) {
-                        if(isset($Reponse1[$i])) { ?>
+                    for($i=0 ; $i <= $nbElement = count($Reponse) ; $i++) {
+                        if(isset($Reponse[$i])) { ?>
                             <tr>
                             <th scope="row"><?php echo($Reponse[$i]['nom']); ?></th>
                             <td><?php echo($Reponse[$i]['prenom']); ?></td>
@@ -88,8 +93,9 @@
                             <td><?php echo($Reponse[$i]['ville']); ?></td>
                             <td><?php echo($Reponse[$i]['codePostale']); ?></td>
                             <td><?php echo($Reponse[$i]['telephone']); ?></td>
-                            <td><button type="button" class="btn btn-outline-primary">Modifier</button></td>
-                            <td><button type="button" name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-danger">Supprimer</button></td>
+                            <form action="gestionMembresModif.php" method="post"><td><button type="submit"  name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-primary">Modifier</button>
+                            </td></form>
+                            <form action="gestionMembres.php" method="post"><td><button type="submit" name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-danger">Supprimer</button></td></form>
                             </tr>
                         <?php }
                     }
@@ -98,8 +104,13 @@
             </table>
         </div>
     </div>
-</form>
 <?php include 'footer.php' ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script>
+var cleave = new Cleave('.input-phone', { //bootstrap numéro de téléphone
+    phone: true,
+    phoneRegionCode: 'fr'
+});
+</script>
 </body>
 </html>
