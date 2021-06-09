@@ -29,6 +29,22 @@
             $Reponse1 = $query1->fetchAll();
             $query1->closeCursor();
 
+            $end_tab = end($Reponse);
+            
+            if(!empty($_POST)) {
+                var_dump($_POST);
+                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                    if(isset($_POST[$i])) {
+                        $sql1 = 'DELETE FROM evenements WHERE id='.$i.'';
+                        $query1 = $dbco->prepare($sql1);
+                        $query1->execute();
+                        $query1->closeCursor();
+                        header('Location: gestionEvenements.php');
+                        die();
+                    }
+                }
+            }
+
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +64,7 @@
         <h1 class="text-center title-top"> Gestion des événements </h1>
     </div>
     <div>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -66,8 +83,8 @@
             </thead>
             <tbody>
             <?php 
-                    for($i=0 ; $i <= $nbElement = count($Reponse1) ; $i++) {
-                        if(isset($Reponse1[$i])) { ?>
+                    for($i=0 ; $i <= $nbElement = count($Reponse) ; $i++) {
+                        if(isset($Reponse[$i])) { ?>
                             <tr>
                             <th scope="row"><?php echo($Reponse[$i]['nom']); ?></th>
                             <td><?php echo($Reponse[$i]['lieu']); ?></td>
@@ -79,14 +96,17 @@
                             <td><?php echo($Reponse[$i]['placesRestantes']); ?></td>
                             <td><?php echo($Reponse[$i]['description']); ?></td>
                             <td><?php echo($Reponse[$i]['lien_image']); ?></td>
-                            <td><button type="button" class="btn btn-outline-primary">Modifier</button></td>
-                            <td><button type="button" name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-danger">Supprimer</button></td>
+                           
+                            <form action="gestionEvenementsModif.php" method="post"><td><button type="submit"  name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-primary">Modifier</button>
+                            </td></form>
+                            <form action="gestionEvenements.php" method="post"><td><button type="submit" name="<?php echo ($Reponse[$i]['id'])?>" class="btn btn-outline-danger">Supprimer</button></td></form>
                             </tr>
                         <?php }
                     }
                     ?>
             </tbody>
         </table>
+        
     </div>
 </div>
 

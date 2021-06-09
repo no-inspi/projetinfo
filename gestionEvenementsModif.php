@@ -1,7 +1,7 @@
 <?php 
             session_start();
             require("function.php");	 		
-            if(!isset($_SESSION['login'])) {
+            if(!isset($_SESSION['login']) || empty($_POST)) {
                 header("Location: index.php");
                 die();
             }
@@ -9,21 +9,41 @@
 
                 $bdd = connexionBDD();
 
-                if(!empty($_POST)) {
-                    $sql = 'UPDATE evenements SET nom="'.$_POST['nom'].'", prix="'.$_POST['prix'].'" , lieu="'.$_POST['lieu'].'" , lien_image="'.$_POST['lien_image'].'" , dateDebut="'.$_POST['dateDebut'].'" , dateFin="'.$_POST['dateFin'].'" , dateLimiteInscription="'.$_POST['dateLimiteInscription'].'" , descritpion="'.$_POST['description'].'" , nombreParticipants="'.$_POST['nombreParticipants'].'" , placesRestantes="'.$_POST['placesRestantes'].'" WHERE id="'.$Reponse['id'].'"';
-                    $query = $bdd->prepare($sql);
-                    $query->execute();
-                    $query->closeCursor();
-                    $message = 'Le produit a bien été modifié';
-                }
+
+                // if(!empty($_POST)) {
+                //     $sql = 'UPDATE evenements SET nom="'.$_POST['nom'].'", prix="'.$_POST['prix'].'" , lieu="'.$_POST['lieu'].'" , lien_image="'.$_POST['lien_image'].'" , dateDebut="'.$_POST['dateDebut'].'" , dateFin="'.$_POST['dateFin'].'" , dateLimiteInscription="'.$_POST['dateLimiteInscription'].'" , descritpion="'.$_POST['description'].'" , nombreParticipants="'.$_POST['nombreParticipants'].'" , placesRestantes="'.$_POST['placesRestantes'].'" WHERE id="'.$Reponse['id'].'"';
+                //     $query = $bdd->prepare($sql);
+                //     $query->execute();
+                //     $query->closeCursor();
+                //     $message = 'Le produit a bien été modifié';
+                // }
 
 
                 
-                $sql = 'SELECT * FROM evenements WHERE id="'.$Reponse['id'].'"';
+                $sql = 'SELECT * FROM evenements';
                 $query = $bdd->prepare($sql);
                 $query->execute();
                 $Reponse = $query->fetchAll();
                 $query->closeCursor();
+
+                $end_tab = end($Reponse);
+                for ($i=0; $i <= $end_tab['id']; $i++) { 
+                    if(isset($_POST[$i])) {
+                        $sql1 = 'SELECT * FROM evenements WHERE id='.$i.'';
+                        $query1 = $bdd->prepare($sql1);
+                        $query1->execute();
+                        $Reponse1 = $query1->fetchAll();
+                        $query1->closeCursor();
+                        
+                    }
+                }
+                $date_debut_tamp = strtotime($Reponse1[0]['dateDebut']);
+                $date_debut = date('Y-m-d',$date_debut_tamp);
+                $date_fin_tamp = strtotime($Reponse1[0]['dateFin']);
+                $date_fin = date('Y-m-d',$date_fin_tamp);
+                $date_limite_tamp = strtotime($Reponse1[0]['dateLimiteInscription']);
+                $date_limite = date('Y-m-d',$date_limite_tamp);
+
             }
 
 
@@ -66,33 +86,33 @@
 include 'menu.php';
 ?>
 <div class="container" style="margin-bottom: 120px;">
-<form action="gestionEvenementsModif.php" method="POST">
+<form action="traitementModifEvenement.php" method="POST">
     <div class="row justify-content-center">
-    <h1 class="text-center title-top">Modification du produit </h1>
+    <h1 class="text-center title-top">Modification de l'evenement</h1>
         <div class="col-6">
                 <div class="mb-3">
                     <label for="nom" class="form-label">Nom de l'événement</label>
-                    <input placeholder="Le nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse[0]['nom']) ?>" required>
+                    <input placeholder="Le nom" type="text" class="form-control" id="nom" name="nom" value="<?php echo($Reponse1[0]['nom']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="prix" class="form-label">Prix</label>
-                    <input placeholder="Prix" type="text" class="form-control" id="prix" name="prix" value="<?php echo($Reponse[0]['prix']) ?>" required>
-                </div>
-                <div class="mb-3">
-                    <label for="dateFin" class="form-label">Date de fin</label>
-                    <input placeholder="Date de fin" type="date" class="form-control" id="dateFin" min="0" max="1500" name="age" value="<?php echo($Reponse[0]['dateFin']) ?>" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lien_image" class="form-label">Lien de l'image</label>
-                    <input placeholder="le lien de l'image" type="text" class="form-control" id="lien_image" name="lien_image" value="<?php echo($Reponse[0]['lien_image']) ?>" required>
+                    <input placeholder="Prix" type="text" class="form-control" id="prix" name="prix" value="<?php echo($Reponse1[0]['prix']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="dateDebut" class="form-label">Date de début</label>
-                    <input placeholder="Date de début" type="date" class="form-control" id="dateDebut" name="dateDebut" value="<?php echo($Reponse[0]['dateDebut']) ?>" required>
+                    <input type="date" class="form-control" id="dateDebut" name="dateDebut" value="<?php echo($date_debut);?>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="dateLimitieInscription" class="form-label">Dare limite d'inscription</label>
-                    <input placeholder="Date limite des inscriptions" type="date" class="form-control" id="dateLimitieInscription" name="dateLimitieInscription" value="<?php echo($Reponse[0]['dateLimitieInscription']) ?>" required>
+                    <label for="dateFin" class="form-label">Date de fin</label>
+                    <input placeholder="Date de fin" type="date" class="form-control" id="dateFin" min="0" max="1500" name="dateFin" value="<?php echo($date_fin);?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lien_image" class="form-label">Lien de l'image</label>
+                    <input placeholder="le lien de l'image" type="text" class="form-control" id="lien_image" name="lien_image" value="<?php echo($Reponse1[0]['lien_image']) ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="dateLimitieInscription" class="form-label">Date limite d'inscription</label>
+                    <input placeholder="Date limite des inscriptions" type="date" class="form-control" id="dateLimitieInscription" name="dateLimiteInscription" value="<?php echo($date_limite);?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="lieu" class="form-label">Lieu de l'événement</label>
@@ -100,7 +120,7 @@ include 'menu.php';
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description de l'événement</label>
-                    <input placeholder="Description" type="text" class="form-control" id="description" name="description" value="<?php echo($Reponse[0]['description']) ?>" required>
+                    <textarea  placeholder="Description" type="text" class="form-control" id="description" name="description" value="" required><?php echo($Reponse[0]['description']) ?></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="nombreParticipants" class="form-label">Le nombre de participants</label>
@@ -110,7 +130,8 @@ include 'menu.php';
                     <label for="placesRestantes" class="form-label">Nombre des places restantes</label>
                     <input placeholder="Nombre de places restantes" type="number" class="form-control" id="placesRestantes" name="placesRestantes" value="<?php echo($Reponse[0]['placesRestantes']) ?>" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Modifier le produit</button>
+                <input style="display: none;" name="id" value="<?php echo($Reponse[0]['id']); ?>">
+                <button type="submit" class="btn btn-primary">Modifier l'evenement</button>
 
         </div>
     </div>

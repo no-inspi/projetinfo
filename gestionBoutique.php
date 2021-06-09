@@ -47,11 +47,11 @@
                 }   
             }
             
-            if(!empty($_POST[''])) {
+            if(!empty($_POST)) {
                 $bdd = connexionBDD();
                 for($i=0 ; $i <= 2 ; $i++) {
                     if($_POST[''] = $Reponse[$i]['id']) {
-                        $sql = 'UPDATE evenements SET nom="'.$Cnull.'", prix="'.$null.'" , lieu="'.$Cnull.'" , lien_image="'.$Cnull.'" , dateDebut="'.$null.'" , dateFin="'.$null.'" , dateLimiteInscription="'.$null.'" , descritpion="'.$Cnull.'" , nombreParticipants="'.$null'" , placesRestantes="'.$null.'" WHERE id="'.$_POST[''].'"';
+                        $sql = '';
                         $query = $bdd->prepare($sql);
                         $query->execute();
                         $query->closeCursor();
